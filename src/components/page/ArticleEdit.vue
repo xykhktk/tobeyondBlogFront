@@ -24,7 +24,7 @@
 						<el-input type="input" v-model="article.page_image"></el-input>
 					</el-form-item>
 					<el-form-item label="tagIds">
-						<el-input type="input" v-model="article.tagIds"></el-input>
+						<el-input type="input" v-model="tagIds"></el-input>
 					</el-form-item>
 					<el-form-item label="">
 						<mavon-editor v-model="article.content" ref="md" @imgAdd="$imgAdd" @change="change" style="min-height: 600px" />
@@ -50,6 +50,7 @@
 			return {
 				id: 0,
 				article: {},
+				tagIds : ''
 			}
 		},
 		components: {
@@ -60,7 +61,7 @@
 
 			let params = new URLSearchParams();
 			params.append('id', this.id);
-			this.$axios.post('http://www.tobeyond.site/api/admin/article/editPage', params, {
+			this.$axios.post(this.apiURL.baseApiURL + 'api/admin/article/editPage', params, {
 					headers: {
 						token: localStorage.getItem("token")
 					}
@@ -84,8 +85,8 @@
 				formdata.append('subtitle', this.article.subtitle);
 				formdata.append('is_show', this.article.is_show);
 				formdata.append('text', this.article.content);
-				// formdata.append('page_image', this.article.page_image);
-				formdata.append('tagIds', this.article.tagIds);
+				formdata.append('page_image', this.article.page_image);
+				formdata.append('tagIds', this.tagIds);
 				this.$axios({
 					url: 'http://www.tobeyond.site/api/admin/article/edit',
 					method: 'post',

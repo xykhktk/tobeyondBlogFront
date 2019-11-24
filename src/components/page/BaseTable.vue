@@ -91,7 +91,7 @@
 		},
 		methods: {
 			getData() {
-				this.$axios.post('http://www.tobeyond.site/api/admin/article/list', {}, {
+				this.$axios.post(this.apiURL.baseApiURL + 'api/admin/article/list', {}, {
 						headers: {
 							token: localStorage.getItem("token")
 						}

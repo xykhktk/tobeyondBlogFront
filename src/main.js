@@ -10,13 +10,15 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
 import axios from 'axios';
+// import baseApiURL from './api/index.js';
+import  apiURL from '@/api/index.js';
 
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 // use
 Vue.use(mavonEditor)
 
-
+Vue.prototype.apiURL = apiURL;
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {

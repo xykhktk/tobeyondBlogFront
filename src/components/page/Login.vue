@@ -46,10 +46,10 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-					var params = new URLSearchParams();
+					let params = new URLSearchParams();
 					params.append('name', this.param.name);
 					params.append('password', md5(this.param.password));
-					this.$axios.post('http://127.0.0.1:8080/api/admin/login', params)
+					this.$axios.post('http://www.tobeyond.site/api/admin/login', params)
 					.then(res => {
 						if(res.data.code == 200){
 							this.$message.success('登录成功');

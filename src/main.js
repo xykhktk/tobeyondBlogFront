@@ -11,6 +11,12 @@ import './components/common/directives';
 import 'babel-polyfill';
 import axios from 'axios';
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
+
+
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {
@@ -27,7 +33,7 @@ Vue.prototype.$axios = axios;//axios直接挂载在原型上
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-    document.title = `${to.meta.title} | vue-manage-system`;
+    document.title = `${to.meta.title} | tobeyond`;
     const role = localStorage.getItem('ms_username');
     if (!role && to.path !== '/login') {
 		console.log('!role');

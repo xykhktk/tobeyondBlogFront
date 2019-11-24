@@ -22,8 +22,13 @@ export default new Router({
                 {
                     path: '/table',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-                    meta: { title: '基础表格' }
+                    meta: { title: '文章列表' }
                 },
+				{
+				    path: '/articleEdit',
+				    component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleEdit.vue'),
+				    meta: { title: '文章编辑' }
+				},
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),

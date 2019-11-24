@@ -22,7 +22,7 @@
 				<el-table-column type="selection" width="55" align="center"></el-table-column>
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="title" label="标题"></el-table-column>
-				<el-table-column prop="title" label="副标题"></el-table-column>
+				<el-table-column prop="subtitle" label="副标题"></el-table-column>
 				<el-table-column label="状态" align="center" width=100>
 					<template slot-scope="scope">
 						<el-tag :type="scope.row.is_show==='1'?'success':(scope.row.is_show==='0'?'danger':'')">
@@ -94,9 +94,9 @@
 		},
 		methods: {
 			getData() {
-				this.$axios.post('http://127.0.0.1:8080/api/admin/article/list', {}, {
+				this.$axios.post('http://www.tobeyond.site/api/admin/article/list', {}, {
 						headers: {
-							token : localStorage.getItem("token")
+							token: localStorage.getItem("token")
 						}
 					})
 					.then(res => {
@@ -137,9 +137,15 @@
 			},
 			// 编辑操作
 			handleEdit(index, row) {
-				this.idx = index;
-				this.form = row;
-				this.editVisible = true;
+				this.$router.push({
+					path: 'articleEdit',
+					query: {
+						id: row.id
+					}
+				});
+				// this.idx = index;
+				// this.form = row;
+				// this.editVisible = true;
 			},
 			// 保存编辑
 			saveEdit() {

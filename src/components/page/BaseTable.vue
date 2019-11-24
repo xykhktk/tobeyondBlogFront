@@ -23,12 +23,9 @@
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="title" label="标题"></el-table-column>
 				<el-table-column prop="subtitle" label="副标题"></el-table-column>
-				<el-table-column label="状态" align="center" width=100>
+				<el-table-column label="显示" align="center" width="100">
 					<template slot-scope="scope">
-						<el-tag :type="scope.row.is_show==='1'?'success':(scope.row.is_show==='0'?'danger':'')">
-							<span v-if="scope.row.is_show == 1">显示</span>
-							<span v-if="scope.row.is_show == 0">隐藏</span>
-						</el-tag>
+						<el-switch v-model="scope.row.is_show" active-value="1" inactive-value="0" change="changShow(scope.row)"></el-switch>
 					</template>
 				</el-table-column>
 
@@ -101,7 +98,17 @@
 					})
 					.then(res => {
 						this.tableData = res.data.data.data.list;
+						this.tableData.forEach((item,index,array) => {
+							this.tableData[index]['is_show'] = item.is_show.toString();
+						});
+						// let i = 0;
+						// for(i = 0;i < this.tableData.length;i++){
+						// 	this.tableData[i]['is_show'] = this.tableData[i]['is_show'].toString();
+						// }
 					});
+			},
+			changShow(item){
+				consle.log(item);
 			},
 			// 触发搜索按钮
 			handleSearch() {

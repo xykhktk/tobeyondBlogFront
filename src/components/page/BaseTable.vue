@@ -99,7 +99,7 @@
 					.then(res => {
 						this.tableData = res.data.data.data.list;
 						this.tableData.forEach((item,index,array) => {
-							this.tableData[index]['is_show'] = item.is_show.toString();
+							this.tableData[index]['isShow'] = item.isShow.toString();
 						});
 						// let i = 0;
 						// for(i = 0;i < this.tableData.length;i++){

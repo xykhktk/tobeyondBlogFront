@@ -8,8 +8,8 @@
 //     })
 // }
 
-const baseApiURL = 'http://127.0.0.1:8080/';
-// const baseURL = 'http://www.tobeyond.site/';
+// const baseApiURL = 'http://127.0.0.1:8080/';
+const baseApiURL = 'http://www.tobeyond.site/';
 
 export default {
   baseApiURL

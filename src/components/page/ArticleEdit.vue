@@ -3,9 +3,9 @@
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item>
-					<i class="el-icon-lx-calendar"></i> 表单
+					<i class="el-icon-lx-calendar"></i> 文章
 				</el-breadcrumb-item>
-				<el-breadcrumb-item>基本表单</el-breadcrumb-item>
+				<el-breadcrumb-item>文章编辑</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="container">
@@ -18,13 +18,15 @@
 						<el-input type="input" v-model="article.subtitle"></el-input>
 					</el-form-item>
 					<el-form-item label="是否显示">
-						<el-switch v-model="article.is_show" active-value="1" inactive-value="0"></el-switch>
+						<el-switch v-model="article.isShow" active-value="1" inactive-value="0"></el-switch>
 					</el-form-item>
 					<el-form-item label="page_image">
 						<el-input type="input" v-model="article.page_image"></el-input>
 					</el-form-item>
-					<el-form-item label="tagIds">
-						<el-input type="input" v-model="tagIds"></el-input>
+					<el-form-item label="标签">
+						 <el-checkbox v-for="tag in tagList" :key="tag.id" v-model="tag.isSelect">
+						 {{ tag.title }}
+						 </el-checkbox>
 					</el-form-item>
 					<el-form-item label="">
 						<mavon-editor v-model="article.content" ref="md" @imgAdd="$imgAdd" @change="change" style="min-height: 600px" />
@@ -50,7 +52,8 @@
 			return {
 				id: 0,
 				article: {},
-				tagIds : ''
+				tagIds : '',
+				tagList : []
 			}
 		},
 		components: {
@@ -70,7 +73,20 @@
 					if(res.data.code == '200'){
 						// this.$message.success(res.data.message);
 						 this.article = res.data.data.article;
-						 this.article.is_show = this.article.is_show.toString();
+						 this.article.isShow = this.article.isShow.toString();
+						 
+						 this.article.tagList.forEach((article_tag_item,artice_tag_index,article_tag_array) => {
+							res.data.data.tagList.forEach((item,index,array) => {
+								item.isSelect = false;
+								if(article_tag_item.tagId == item.id){
+									item.isSelect = true;
+								}
+							})
+						 });
+						 //必须先处理完数据，再赋值给this.tagList；
+						 //如果赋值给this.tagList，再处理数据的话,会有出现多选框无法选择的问题。
+						 this.tagList = res.data.data.tagList;
+						 
 					}else{
 						this.$message.error(res.data.code.message);
 					}
@@ -83,12 +99,19 @@
 				formdata.append('id', this.id);
 				formdata.append('title', this.article.title);
 				formdata.append('subtitle', this.article.subtitle);
-				formdata.append('is_show', this.article.is_show);
+				formdata.append('isShow', this.article.isShow);
 				formdata.append('text', this.article.content);
-				formdata.append('page_image', this.article.page_image);
-				formdata.append('tagIds', this.tagIds);
+				formdata.append('pageImage', this.article.pageImage);
+				
+				let tagIds = [];
+				this.tagList.forEach((item,index,array) => {
+					if(item.isSelect) tagIds.push(item.id);
+				});
+				tagIds = tagIds.join(',');
+				formdata.append('tagIds', tagIds);
+				
 				this.$axios({
-					url: 'http://www.tobeyond.site/api/admin/article/edit',
+					url: this.apiURL.baseApiURL + 'api/admin/article/edit',
 					method: 'post',
 					data: formdata,
 					headers: {
@@ -96,7 +119,11 @@
 						'token': localStorage.getItem("token")
 					},
 				}).then((res) => {
-					console.log(res)
+					if(res.data.code == '200'){
+						
+					}else{
+						this.$message.error(res.data.message);
+					}
 				})
 			},
 			$imgAdd(pos, $file) {},

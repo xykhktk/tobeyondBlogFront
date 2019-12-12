@@ -20,8 +20,8 @@ export default new Router({
                     meta: { title: '系统首页' }
                 },              
                 {
-                    path: '/table',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
+                    path: '/articleList',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleList.vue'),
                     meta: { title: '文章列表' }
                 },
 				{

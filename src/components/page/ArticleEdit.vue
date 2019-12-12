@@ -20,13 +20,23 @@
 					<el-form-item label="是否显示">
 						<el-switch v-model="article.isShow" active-value="1" inactive-value="0"></el-switch>
 					</el-form-item>
-					<el-form-item label="page_image">
-						<el-input type="input" v-model="article.page_image"></el-input>
+					<el-form-item label="图片">
+						<el-upload 
+						:action="uploadImagePath" 
+						:on-preview="handlePreview"
+						:on-remove="handleRemove" 
+						:on-success="uploadSuccess"
+						:file-list="fileList" 
+						:limit="1"
+						list-type="picture">
+							<el-button size="small" type="primary">点击上传</el-button>
+							<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+						</el-upload>
 					</el-form-item>
 					<el-form-item label="标签">
-						 <el-checkbox v-for="tag in tagList" :key="tag.id" v-model="tag.isSelect">
-						 {{ tag.title }}
-						 </el-checkbox>
+						<el-checkbox v-for="tag in tagList" :key="tag.id" v-model="tag.isSelect">
+							{{ tag.title }}
+						</el-checkbox>
 					</el-form-item>
 					<el-form-item label="">
 						<mavon-editor v-model="article.content" ref="md" @imgAdd="$imgAdd" @change="change" style="min-height: 600px" />
@@ -52,8 +62,10 @@
 			return {
 				id: 0,
 				article: {},
-				tagIds : '',
-				tagList : []
+				tagIds: '',
+				tagList: [],
+				fileList: [],
+				uploadImagePath : this.apiURL.baseApiURL + 'api/admin/upload/uploadFile' 
 			}
 		},
 		components: {
@@ -70,27 +82,31 @@
 					}
 				})
 				.then(res => {
-					if(res.data.code == '200'){
+					if (res.data.code == '200') {
 						// this.$message.success(res.data.message);
-						 this.article = res.data.data.article;
-						 this.article.isShow = this.article.isShow.toString();
-						 
-						 this.article.tagList.forEach((article_tag_item,artice_tag_index,article_tag_array) => {
-							res.data.data.tagList.forEach((item,index,array) => {
+						this.article = res.data.data.article;
+						this.article.isShow = this.article.isShow.toString();
+
+						this.article.tagList.forEach((article_tag_item, artice_tag_index, article_tag_array) => {
+							res.data.data.tagList.forEach((item, index, array) => {
 								item.isSelect = false;
-								if(article_tag_item.tagId == item.id){
+								if (article_tag_item.tagId == item.id) {
 									item.isSelect = true;
 								}
 							})
-						 });
-						 //必须先处理完数据，再赋值给this.tagList；
-						 //如果赋值给this.tagList，再处理数据的话,会有出现多选框无法选择的问题。
-						 this.tagList = res.data.data.tagList;
-						 
-					}else{
+						});
+						//必须先处理完数据，再赋值给this.tagList；
+						//如果赋值给this.tagList，再处理数据的话,会有出现多选框无法选择的问题。
+						this.tagList = res.data.data.tagList;
+
+						this.fileList.push({
+							name : this.article.pageImage,
+							url : this.article.pageImgFull
+						});
+					} else {
 						this.$message.error(res.data.code.message);
 					}
-					
+
 				});
 		},
 		methods: {
@@ -102,14 +118,14 @@
 				formdata.append('isShow', this.article.isShow);
 				formdata.append('text', this.article.content);
 				formdata.append('pageImage', this.article.pageImage);
-				
+
 				let tagIds = [];
-				this.tagList.forEach((item,index,array) => {
-					if(item.isSelect) tagIds.push(item.id);
+				this.tagList.forEach((item, index, array) => {
+					if (item.isSelect) tagIds.push(item.id);
 				});
 				tagIds = tagIds.join(',');
 				formdata.append('tagIds', tagIds);
-				
+
 				this.$axios({
 					url: this.apiURL.baseApiURL + 'api/admin/article/edit',
 					method: 'post',
@@ -119,9 +135,12 @@
 						'token': localStorage.getItem("token")
 					},
 				}).then((res) => {
-					if(res.data.code == '200'){
-						
-					}else{
+					if (res.data.code == '200') {
+						this.$message.success(res.data.message);
+						// this.$router.push({
+							// path: 'table'
+						// });
+					} else {
 						this.$message.error(res.data.message);
 					}
 				})
@@ -130,7 +149,19 @@
 			change(value, render) {
 				// render 为 markdown 解析后的结果
 				this.article.content = render;
-			}
+			},
+			handleRemove(file, fileList) {
+				console.log(file, fileList);
+			},
+			handlePreview(file) {
+				console.log(file);
+			},
+			uploadSuccess(response, file, fileList){
+				this.article.pageImage = response.data.key;
+			},
+			// uploadFileExceed(file, fileList){
+			// 	this.fileList = [];
+			// }
 		}
 	}
 </script>

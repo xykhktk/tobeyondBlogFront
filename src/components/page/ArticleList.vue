@@ -9,11 +9,11 @@
 		</div>
 		<div class="container">
 			<div class="handle-box">
-				<el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
+<!-- 				<el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
 					<el-option key="1" label="广东省" value="广东省"></el-option>
 					<el-option key="2" label="湖南省" value="湖南省"></el-option>
-				</el-select>
-				<el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+				</el-select> -->
+				<el-input v-model="query.name" placeholder="标题" class="handle-input mr10"></el-input>
 				<el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
 				<el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量隐藏</el-button>
 			</div>
@@ -25,11 +25,11 @@
 				<el-table-column prop="subtitle" label="副标题"></el-table-column>
 				<el-table-column label="显示" align="center" width="100">
 					<template slot-scope="scope">
-						<el-switch v-model="scope.row.is_show" active-value="1" inactive-value="0" change="changShow(scope.row)"></el-switch>
+						<el-switch v-model="scope.row.isShow" active-value="1" inactive-value="0" @change="changShow(scope.row)"></el-switch>
 					</template>
 				</el-table-column>
-
-				<el-table-column prop="created_at" label="发布时间" width=200></el-table-column>
+				<el-table-column prop="createdAt" label="发布时间" width=200></el-table-column>
+				<el-table-column prop="updatedAt" label="更新时间" width=200></el-table-column>
 				<el-table-column label="操作" width="180" align="center">
 					<template slot-scope="scope">
 						<el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -39,7 +39,7 @@
 			</el-table>
 			<div class="pagination">
 				<el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex" :page-size="query.pageSize"
-				 :total="pageTotal" @current-change="handlePageChange"></el-pagination>
+				 :total="pagination.pageTotal" @current-change="handlePageChange"></el-pagination>
 			</div>
 		</div>
 
@@ -68,19 +68,21 @@
 		data() {
 			return {
 				query: {
-					address: '',
-					name: '',
+					title: '',
 					pageIndex: 1,
 					pageSize: 10
+				},
+				pagination :{
+					pageTotal: 0,
 				},
 				tableData: [],
 				multipleSelection: [],
 				delList: [],
 				editVisible: false,
-				pageTotal: 0,
+				
 				form: {},
-				idx: -1,
-				id: -1
+				// idx: -1,
+				// id: -1
 			};
 		},
 		created() {
@@ -88,24 +90,52 @@
 		},
 		methods: {
 			getData() {
-				this.$axios.post(this.apiURL.baseApiURL + 'api/admin/article/list', {}, {
-						headers: {
-							token: localStorage.getItem("token")
-						}
-					})
-					.then(res => {
-						this.tableData = res.data.data.data.list;
-						this.tableData.forEach((item,index,array) => {
-							this.tableData[index]['isShow'] = item.isShow.toString();
-						});
-						// let i = 0;
-						// for(i = 0;i < this.tableData.length;i++){
-						// 	this.tableData[i]['is_show'] = this.tableData[i]['is_show'].toString();
-						// }
+				var formdata = new FormData();
+				formdata.append('page', this.query.pageIndex);
+				this.$axios({
+					url: this.apiURL.baseApiURL + 'api/admin/article/list',
+					method: 'post',
+					data: formdata,
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						'token': localStorage.getItem("token")
+					},
+				}).then((res) => {
+					this.tableData = res.data.data.data.list;
+					this.tableData.forEach((item,index,array) => {
+						this.tableData[index]['isShow'] = item.isShow.toString(); // <el-switch>只接受string 和boolean类型？
 					});
+					
+					this.query.pageSize = res.data.data.data.pageSize;
+					this.query.pageIndex = res.data.data.data.pageNum;
+					this.pagination.pageTotal = res.data.data.data.total;
+					// let i = 0;
+					// for(i = 0;i < this.tableData.length;i++){
+					// 	this.tableData[i]['is_show'] = this.tableData[i]['is_show'].toString();
+					// }
+				})
 			},
+			//切换显示/隐藏
 			changShow(item){
-				consle.log(item);
+				var formdata = new FormData();
+				formdata.append('id', item.id);
+				formdata.append('isShow', item.isShow);
+				this.$axios({
+					url: this.apiURL.baseApiURL + 'api/admin/article/changeShow',
+					method: 'post',
+					data: formdata,
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						'token': localStorage.getItem("token")
+					},
+				}).then((res) => {
+					if (res.data.code == '200') {
+						this.$message.success(res.data.message);
+					} else {
+						this.$message.error(res.data.message);
+					}
+				})
+				
 			},
 			// 触发搜索按钮
 			handleSearch() {

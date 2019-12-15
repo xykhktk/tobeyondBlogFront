@@ -29,6 +29,11 @@ export default new Router({
 				    component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleEdit.vue'),
 				    meta: { title: '文章编辑' }
 				},
+				{
+				    path: '/articleAdd',
+				    component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleAdd.vue'),
+				    meta: { title: '新增文章' }
+				},
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),

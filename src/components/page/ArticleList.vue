@@ -15,6 +15,7 @@
 				</el-select> -->
 				<el-input v-model="query.name" placeholder="标题" class="handle-input mr10"></el-input>
 				<el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+				<el-button type="primary" icon="el-icon-edit-outline" @click="articleAdd">新增</el-button>
 				<el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量隐藏</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header"
@@ -25,7 +26,7 @@
 				<el-table-column prop="subtitle" label="副标题"></el-table-column>
 				<el-table-column label="显示" align="center" width="100">
 					<template slot-scope="scope">
-						<el-switch v-model="scope.row.isShow" active-value="1" inactive-value="0" @change="changShow(scope.row)"></el-switch>
+						<el-switch v-model="scope.row.isShow"  active-value="1"  inactive-value="0" @change="changShow(scope.row)"></el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column prop="createdAt" label="发布时间" width=200></el-table-column>
@@ -103,7 +104,7 @@
 				}).then((res) => {
 					this.tableData = res.data.data.data.list;
 					this.tableData.forEach((item,index,array) => {
-						this.tableData[index]['isShow'] = item.isShow.toString(); // <el-switch>只接受string 和boolean类型？
+						this.tableData[index]['isShow'] = item.isShow.toString(); // <el-switch>只接受string 和boolean类型.而接口传来的是int类型
 					});
 					
 					this.query.pageSize = res.data.data.data.pageSize;
@@ -180,6 +181,11 @@
 				// this.idx = index;
 				// this.form = row;
 				// this.editVisible = true;
+			},
+			articleAdd(){
+				this.$router.push({
+					path: 'articleAdd'
+				});
 			},
 			// 保存编辑
 			saveEdit() {

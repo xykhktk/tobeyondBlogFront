@@ -80,7 +80,6 @@
 				.then(res => {
 					if (res.data.code == '200') {
 						this.tagList = res.data.data.tagList;
-						console.log(this.tagList);
 					} else {
 						this.$message.error(res.data.code.message);
 					}

@@ -64,8 +64,14 @@ export default {
                 {
                     icon: 'el-icon-lx-cascades',
                     index: 'articleList',
-                    title: '文章列表'
-                }
+                    title: 'aList'
+                }, 
+				{
+                    icon: 'el-icon-lx-cascades',
+                    index: 'tagList',
+                    title: 'tagList'
+                },
+				
             ]
         };
     },

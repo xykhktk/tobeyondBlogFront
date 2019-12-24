@@ -34,6 +34,16 @@ export default new Router({
 				    component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleAdd.vue'),
 				    meta: { title: '新增文章' }
 				},
+				{
+				    path: '/tagList',
+				    component: () => import(/* webpackChunkName: "table" */ '../components/page/TagList.vue'),
+				    meta: { title: 'tagList' }
+				},
+				{
+				    path: '/tagAdd',
+				    component: () => import('../components/page/TagAdd.vue'),
+				    meta: { title: 'add Tag' }
+				},
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),

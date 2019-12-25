@@ -75,6 +75,10 @@
 					},
 				}).then((res) => {
 					this.tableData = res.data.data.data.list;
+					this.tableData.forEach((item,index,array) => {
+						this.tableData[index]['isShow'] = item.isShow.toString(); // <el-switch>只接受string 和boolean类型.而接口传来的是int类型
+					});
+					
 					this.query.pageSize = res.data.data.data.pageSize;
 					this.query.pageIndex = res.data.data.data.pageNum;
 					this.pagination.pageTotal = res.data.data.data.total;

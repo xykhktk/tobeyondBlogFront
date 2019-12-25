@@ -3,19 +3,19 @@
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item>
-					<i class="el-icon-lx-calendar"></i> tag
+					<i class="el-icon-lx-calendar"></i> maxim
 				</el-breadcrumb-item>
-				<el-breadcrumb-item>Add Tag</el-breadcrumb-item>
+				<el-breadcrumb-item>Add Maxim</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="container">
 			<div class="form-box">
-				<el-form ref="form" :model="tag" label-width="80px">
-					<el-form-item label="标签标题">
-						<el-input type="input" v-model="tag.title"></el-input>
+				<el-form ref="form" :model="maxim" label-width="80px">
+					<el-form-item label="作者">
+						<el-input type="input" v-model="maxim.author"></el-input>
 					</el-form-item>
-					<el-form-item label="标签名称">
-						<el-input type="input" v-model="tag.tag"></el-input>
+					<el-form-item label="内容">
+						<el-input type="input" v-model="maxim.content"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="onSubmit">提交</el-button>
@@ -31,10 +31,10 @@
 	import bus from '../common/bus';
 
 	export default {
-		name: 'tagAdd',
+		name: 'maximAdd',
 		data() {
 			return {
-				tag: {},
+				maxim: {},
 			}
 		},
 		components: {
@@ -44,10 +44,10 @@
 		methods: {
 			onSubmit() {
 				var formdata = new FormData();
-				formdata.append('title', this.tag.title);
-				formdata.append('tag', this.tag.tag);
+				formdata.append('author', this.maxim.author);
+				formdata.append('content', this.maxim.content);
 				this.$axios({
-					url: this.apiURL.baseApiURL + 'api/admin/tag/add',
+					url: this.apiURL.baseApiURL + 'api/admin/maxim/add',
 					method: 'post',
 					data: formdata,
 					headers: {

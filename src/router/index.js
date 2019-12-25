@@ -44,6 +44,26 @@ export default new Router({
 				    component: () => import('../components/page/TagAdd.vue'),
 				    meta: { title: 'add Tag' }
 				},
+				{
+				    path: '/tagEdit',
+				    component: () => import('../components/page/TagEdit.vue'),
+				    meta: { title: 'edit Tag' }
+				},
+				{
+				    path: '/maximList',
+				    component: () => import('../components/page/MaximList.vue'),
+				    meta: { title: 'maximList' }
+				},
+				{
+				    path: '/maximEdit',
+				    component: () => import('../components/page/MaximEdit.vue'),
+				    meta: { title: 'edit maxim' }
+				},
+				{
+				    path: '/maximAdd',
+				    component: () => import('../components/page/MaximAdd.vue'),
+				    meta: { title: 'add maxim' }
+				},
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),

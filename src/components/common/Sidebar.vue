@@ -71,6 +71,11 @@ export default {
                     index: 'tagList',
                     title: 'tagList'
                 },
+				{
+				    icon: 'el-icon-lx-cascades',
+				    index: 'maximList',
+				    title: 'maximList'
+				},
 				
             ]
         };

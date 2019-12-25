@@ -5,7 +5,7 @@
 				<el-breadcrumb-item>
 					<i class="el-icon-lx-calendar"></i> tag
 				</el-breadcrumb-item>
-				<el-breadcrumb-item>Add Tag</el-breadcrumb-item>
+				<el-breadcrumb-item>Edit Tag</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="container">
@@ -31,23 +31,43 @@
 	import bus from '../common/bus';
 
 	export default {
-		name: 'tagAdd',
+		name: 'tagEdit',
 		data() {
 			return {
+				id: 0,
 				tag: {},
 			}
 		},
 		components: {
 		},
 		created() {
+			this.id = this.$route.query.id;
+
+			let params = new URLSearchParams();
+			params.append('id', this.id);
+			this.$axios.post(this.apiURL.baseApiURL + 'api/admin/tag/editPage', params, {
+					headers: {
+						token: localStorage.getItem("token")
+					}
+				})
+				.then(res => {
+					if (res.data.code == '200') {
+						this.tag = res.data.data.data;
+					} else {
+						this.$message.error(res.data.message);
+					}
+
+				});
 		},
 		methods: {
 			onSubmit() {
 				var formdata = new FormData();
+				formdata.append('id', this.id);
 				formdata.append('title', this.tag.title);
 				formdata.append('tag', this.tag.tag);
+
 				this.$axios({
-					url: this.apiURL.baseApiURL + 'api/admin/tag/add',
+					url: this.apiURL.baseApiURL + 'api/admin/tag/edit',
 					method: 'post',
 					data: formdata,
 					headers: {
@@ -65,6 +85,7 @@
 		}
 	}
 </script>
+
 
 <style scoped>
 	.form-box {

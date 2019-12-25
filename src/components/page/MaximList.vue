@@ -3,20 +3,25 @@
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item>
-					<i class="el-icon-lx-cascades"></i> tagList
+					<i class="el-icon-lx-cascades"></i> maximList
 				</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="container">
 			<div class="handle-box">
-				<el-button type="primary" icon="el-icon-edit-outline" @click="tagAdd">新增</el-button>
+				<el-button type="primary" icon="el-icon-edit-outline" @click="maximAdd">新增</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header"
 			 @selection-change="handleSelectionChange">
 				<el-table-column type="selection" width="55" align="center"></el-table-column>
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-				<el-table-column prop="tag" label="title"></el-table-column>
-				<el-table-column prop="tag" label="tag"></el-table-column>
+				<el-table-column prop="content" label="content"></el-table-column>
+				<el-table-column prop="author" label="author"></el-table-column>
+				<el-table-column label="显示" align="center" width="100">
+					<template slot-scope="scope">
+						<el-switch v-model="scope.row.isShow" active-value="1" inactive-value="0" @change="changShow(scope.row)"></el-switch>
+					</template>
+				</el-table-column>
 				<el-table-column prop="createdAt" label="发布时间" width=200></el-table-column>
 				<el-table-column prop="updatedAt" label="更新时间" width=200></el-table-column>
 				<el-table-column label="操作" width="180" align="center">
@@ -42,18 +47,14 @@
 		data() {
 			return {
 				query: {
-					title: '',
 					pageIndex: 1,
 					pageSize: 10
 				},
-				pagination :{
+				pagination: {
 					pageTotal: 0,
 				},
 				tableData: [],
 				multipleSelection: [],
-				delList: [],
-				editVisible: false,
-				
 				form: {},
 			};
 		},
@@ -65,7 +66,7 @@
 				var formdata = new FormData();
 				formdata.append('page', this.query.pageIndex);
 				this.$axios({
-					url: this.apiURL.baseApiURL + 'api/admin/tag/list',
+					url: this.apiURL.baseApiURL + 'api/admin/maxim/list',
 					method: 'post',
 					data: formdata,
 					headers: {
@@ -80,12 +81,12 @@
 				})
 			},
 			//切换显示/隐藏
-			changShow(item){
+			changShow(item) {
 				var formdata = new FormData();
 				formdata.append('id', item.id);
 				formdata.append('isShow', item.isShow);
 				this.$axios({
-					url: this.apiURL.baseApiURL + 'api/admin/article/changeShow',
+					url: this.apiURL.baseApiURL + 'api/admin/maxim/changeShow',
 					method: 'post',
 					data: formdata,
 					headers: {
@@ -98,8 +99,8 @@
 					} else {
 						this.$message.error(res.data.message);
 					}
-				})
-				
+				});
+
 			},
 			// 删除操作
 			handleDelete(index, row) {
@@ -108,7 +109,23 @@
 						type: 'warning'
 					})
 					.then(() => {
-						this.$message.success('删除成功');
+						var formdata = new FormData();
+						formdata.append('id', row.id);
+						this.$axios({
+							url: this.apiURL.baseApiURL + 'api/admin/maxim/del',
+							method: 'post',
+							data: formdata,
+							headers: {
+								'Content-Type': 'multipart/form-data',
+								'token': localStorage.getItem("token")
+							},
+						}).then((res) => {
+							if (res.data.code == '200') {
+								this.$message.success(res.data.message);
+							} else {
+								this.$message.error(res.data.message);
+							}
+						});
 					})
 					.catch(() => {});
 			},
@@ -119,15 +136,15 @@
 			// 编辑操作
 			handleEdit(index, row) {
 				this.$router.push({
-					path: 'tagEdit',
+					path: 'maximEdit',
 					query: {
 						id: row.id
 					}
 				});
 			},
-			tagAdd(){
+			maximAdd() {
 				this.$router.push({
-					path: 'tagAdd'
+					path: 'maximAdd'
 				});
 			},
 			// 分页导航

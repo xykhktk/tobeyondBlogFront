@@ -76,6 +76,11 @@ export default {
 				    index: 'maximList',
 				    title: 'maximList'
 				},
+				{
+				    icon: 'el-icon-lx-cascades',
+				    index: 'taskList',
+				    title: 'taskList'
+				},
 				
             ]
         };

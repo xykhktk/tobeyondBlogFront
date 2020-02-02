@@ -64,6 +64,13 @@ export default new Router({
 				    component: () => import('../components/page/MaximAdd.vue'),
 				    meta: { title: 'add maxim' }
 				},
+				
+				{
+				    path: '/taskList',
+				    component: () => import('../components/page/TaskList.vue'),
+				    meta: { title: 'taskList' }
+				},
+				
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),

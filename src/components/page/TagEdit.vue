@@ -45,7 +45,7 @@
 
 			let params = new URLSearchParams();
 			params.append('id', this.id);
-			this.$axios.post(this.apiURL.baseApiURL + 'api/admin/tag/editPage', params, {
+			this.$axios.post(this.apiURL.baseApiURL + 'api/admin/tag/detail', params, {
 					headers: {
 						token: localStorage.getItem("token")
 					}

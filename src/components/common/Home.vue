@@ -49,3 +49,10 @@ export default {
     }
 };
 </script>
+<style>
+	/* 前台和管理后台引用的css等文件不一样,并且有冲突.所以可以在主文件(home)再分别引用文件 */
+    @import "../../assets/css/main.css";
+	/*深色主题 */
+    @import "../../assets/css/color-dark.css";
+    /*@import "./assets/css/theme-green/color-green.css";   浅绿色主题*/
+</style>

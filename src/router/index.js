@@ -7,8 +7,31 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/blog'
         },
+		
+		{
+		    path: '/',
+		    component: () => import('../components/blog/Home.vue'),
+		    meta: { title: 'tobeyond' },
+		    children: [
+		        {
+		            path: '/blog',
+		            component: () => import('../components/blog/Index.vue'),
+		            meta: { title: '首页' }
+		        },              
+		        // {
+		        //     path: '/articleList',
+		        //     component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleList.vue'),
+		        //     meta: { title: '文章列表' }
+		        // },
+		    ]
+		},
+		
+		{
+		    path: '/admin',
+		    redirect: '/dashboard'
+		},
         {
             path: '/',
             component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),

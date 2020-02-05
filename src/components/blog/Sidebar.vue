@@ -3,14 +3,12 @@
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" :class="{ 'active': navToggleStatus}" @click="toggleNav"><i></i></a>
 		<aside id="fh5co-aside" role="complementary" class="border js-fullheight" style="height: 722px;">
 
-			<h1 id="fh5co-logo"><a href="index.html">Marble</a></h1>
+			<h1 id="fh5co-logo"><a href="index.html">Tobeyond</a></h1>
 			<nav id="fh5co-main-menu" role="navigation">
 				<ul>
-					<li class="fh5co-active"><a href="index.html">Home</a></li>
-					<li><a href="blog.html">Blog</a></li>
-					<li><a href="portfolio.html">Portfolio</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="contact.html">Contact</a></li>
+					<li class="fh5co-active"><a href="#" @click="menuClick('index')">Home</a></li>
+					<li><a href="#" @click="menuClick('articleListFrontend')">Blog</a></li>
+					<li><a href="#" @click="menuClick('about')">About</a></li>
 				</ul>
 			</nav>
 
@@ -40,6 +38,11 @@
 					this.navToggleStatus = true;
 					document.querySelector('body').classList.add("offcanvas");
 				}
+			},
+			menuClick(goto){
+				this.$router.push({
+					path: goto
+				});
 			}
 		}
 	};

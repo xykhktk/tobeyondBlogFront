@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/blog'
+            redirect: '/index'
         },
 		
 		{
@@ -16,15 +16,15 @@ export default new Router({
 		    meta: { title: 'tobeyond' },
 		    children: [
 		        {
-		            path: '/blog',
+		            path: '/index',
 		            component: () => import('../components/blog/Index.vue'),
 		            meta: { title: '首页' }
 		        },              
-		        // {
-		        //     path: '/articleList',
-		        //     component: () => import(/* webpackChunkName: "table" */ '../components/page/ArticleList.vue'),
-		        //     meta: { title: '文章列表' }
-		        // },
+		        {
+		            path: '/articleListFrontend',
+		            component: () => import('../components/blog/ArticleListFrontend.vue'),
+		            meta: { title: '文章列表' }
+		        },
 		    ]
 		},
 		
@@ -94,11 +94,11 @@ export default new Router({
 				    meta: { title: 'taskList' }
 				},
 				
-                {
-                    path: '/404',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
-                    meta: { title: '404' }
-                },
+                // {
+                //     path: '/404',
+                //     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
+                //     meta: { title: '404' }
+                // },
                 {
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
@@ -113,6 +113,11 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        }
+        },
+		{
+		    path: '/404',
+		    component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
+		    meta: { title: '404' }
+		},
     ]
 });

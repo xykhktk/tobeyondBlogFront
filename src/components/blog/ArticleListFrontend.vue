@@ -10,7 +10,7 @@
 							<h3><a href="#">{{ article.title }}</a></h3>
 							<span><small>by Admin </small> / <small> 14</small></span>
 							<p>{{ article.subTitle }}</p>
-							<a href="#" class="lead">Read More <i class="icon-arrow-right3"></i></a>
+							<a href="#" @click="articleDetail(article.id)" class="lead">Read More <i class="icon-arrow-right3"></i></a>
 						</div>
 					</div>
 				</div>
@@ -62,6 +62,14 @@
 			handlePageChange(val) {
 				this.$set(this, 'pageIndex', val);
 				this.getData();
+			},
+			articleDetail(id){
+				this.$router.push({
+					path: 'articleDetailFrontend',
+					query: {
+						id: id
+					}
+				});
 			}
 
 		}

@@ -37,7 +37,11 @@ Vue.prototype.$axios = axios;//axios直接挂载在原型上
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | tobeyond`;
     const role = localStorage.getItem('ms_username');
-    if (!role && to.path !== '/login') {
+	
+	if(to.path == '/index' || to.path == '/articleListFrontend'
+			|| to.path == '/articleDetailFrontend' || to.path == '/about'){
+		next();
+	}else if (!role && to.path !== '/login') {
 		console.log('!role');
         next('/login');
     } else if (to.meta.permission) {

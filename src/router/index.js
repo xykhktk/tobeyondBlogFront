@@ -25,6 +25,16 @@ export default new Router({
 		            component: () => import('../components/blog/ArticleListFrontend.vue'),
 		            meta: { title: '文章列表' }
 		        },
+				{
+				    path: '/articleDetailFrontend',
+				    component: () => import('../components/blog/ArticleDetailFrontend.vue'),
+				    meta: { title: '详情' }
+				},
+				{
+				    path: '/about',
+				    component: () => import('../components/blog/About.vue'),
+				    meta: { title: '关于' }
+				},
 		    ]
 		},
 		
@@ -108,7 +118,7 @@ export default new Router({
         },
         {
             path: '/login',
-            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue')
+            component: () => import('../components/page/Login.vue')
         },
         {
             path: '*',

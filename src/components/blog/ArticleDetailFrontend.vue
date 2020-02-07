@@ -10,7 +10,7 @@
 				
 	
 	            <div class="article-detail-title-tags">
-	                <a class="tag" href="#" v-for="tag in tagList" :key="tag.id">{{ tag.title }}</a>
+	                <a class="tag" href="#" v-for="tag in tagList" :key="tag.id" @click="toArticleList(tag.id)">{{ tag.title }}</a>
 	            </div>
 	
 	            <div id="directory"></div>
@@ -62,6 +62,14 @@
 			},
 			goBack(){
 				this.$router.go(-1);
+			},
+			toArticleList(tagId){
+				this.$router.push({
+					path: 'articleListFrontend',
+					query: {
+						tagId: tagId
+					}
+				});
 			}
 		}
 	}

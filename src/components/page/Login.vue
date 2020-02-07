@@ -55,7 +55,7 @@ export default {
 							this.$message.success('登录成功');
 							localStorage.setItem('ms_username', this.param.name);
 							localStorage.setItem('token', res.data.data.token);
-							this.$router.push('/');
+							this.$router.push('/dashboard');
 						}else{
 							this.$message.error(res.data.message);
 						}

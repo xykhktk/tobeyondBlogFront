@@ -81,6 +81,11 @@ export default {
 				    index: 'taskList',
 				    title: 'taskList'
 				},
+				{
+				    icon: 'el-icon-lx-cascades',
+				    index: 'rabbitMqSocket',
+				    title: 'rabbitMqSocket'
+				},
 				
             ]
         };

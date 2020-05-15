@@ -13,11 +13,18 @@
 			</nav>
 
 			<div class="fh5co-footer">
-				<p><small>桂ICP备17008392号</small></p>
-				<p><small>
-				<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=45010202000471" target="_blank">
-				桂公网安备45010202000471号
-				</a></small></p>
+				<p>
+					<small>
+						<a href=http://beian.miit.gov.cn/ target=_blank>桂ICP备17008392号</a>
+					</small>
+				</p>
+				<p>
+					<small>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=45010202000471" target="_blank">
+						桂公网安备45010202000471号
+						</a>
+				</small>
+				</p>
 			</div>
 
 		</aside>

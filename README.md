@@ -1,3 +1,7 @@
+博客的前端部分。
+管理后台直接照搬了 https://github.com/lin-xin/vue-manage-system
+自己写了前台的js部分。
+
 # vue-manage-system
 
 <a href="https://github.com/vuejs/vue">
